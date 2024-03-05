@@ -29,6 +29,8 @@ const currentON = document.getElementById("timer_on");
 const currentOFF = document.getElementById("timer_off");
 const currentTimerON = document.getElementById("leftON");
 const currentTimerOFF = document.getElementById("leftOFF");
+const maxSpeed = document.getElementById("speed");
+const myPeriod = document.getElementById("period");
 function onMessageArrived(message) {
     // console.log("onMessageArrived:" + message.payloadString);
     let data = JSON.parse(message.payloadString);
@@ -37,16 +39,11 @@ function onMessageArrived(message) {
     if (data.timer_off === "on" && data.timer_on === "on") {
         currentON.value = data.current_on;
         currentOFF.value = data.current_off;
+        maxSpeed.value = data.speed;
+        myPeriod.value = data.period; 
         localStorage.setItem("currentON", data.current_on);
         localStorage.setItem("currentOFF", data.current_off);
         start = data.start;
-        if (start) {
-            b.classList.add("hidden");
-            b2.classList.remove("hidden");
-        } else {
-            b2.classList.add("hidden");
-            b.classList.remove("hidden");
-        }
     } else if (data.timer_on === "on") {
         currentTimerOFF.value = data.timer_off;
         if (data.timer_off < localStorage.getItem("currentOFF")-1) {
@@ -59,10 +56,8 @@ function onMessageArrived(message) {
         }
     } else if (data.timer_on === "azy") {
         if (data.status === "ON") {
-            styleON();
             flagCek = true;
         } else if (data.status === "OFF") {
-            styleOFF();
             flagCek = false;
         }
     }
@@ -117,14 +112,12 @@ function pump_on() {
     message = new Paho.MQTT.Message("1");
     message.destinationName = "ADRSWM/PQ/BTN_ON_OFF";
     client.send(message);
-    cekON();
 }
 
 function pump_off() {
     message = new Paho.MQTT.Message("0");
     message.destinationName = "ADRSWM/PQ/BTN_ON_OFF";
     client.send(message);
-    cekOFF();
 }
 
 toggleSwitch.addEventListener('change', function () {
@@ -132,10 +125,12 @@ toggleSwitch.addEventListener('change', function () {
         message = new Paho.MQTT.Message("M5");
         message.destinationName = "ADRSWM/PQ/FULL_ON";
         client.send(message);
+        styleON();
     } else {
         message = new Paho.MQTT.Message("M6");
         message.destinationName = "ADRSWM/PQ/FULL_OFF";
         client.send(message);
+        styleOFF();
     }
 });
 
@@ -219,6 +214,7 @@ const b2 = document.getElementById("btn_stop");
 let start;
 function btnStart() {
     pump_on();
+    styleON();
     start = true;
     toggleSwitch.checked = true;
     b.classList.add("hidden");
@@ -231,10 +227,16 @@ function btnStart() {
         message.destinationName = "ADRSWM/PQ/CEK_TIMER";
         client.send(message);
     }, 10);
+    setTimeout(function() {
+        message = new Paho.MQTT.Message("FULL_ON");
+        message.destinationName = "ADRSWM/PQ/FULL_ON";
+        client.send(message);
+    }, 25);
 }
 
 function btnStop() {
     pump_off();
+    styleOFF();
     start = false;
     toggleSwitch.checked = false;
     b2.classList.add("hidden");
@@ -247,6 +249,11 @@ function btnStop() {
         message.destinationName = "ADRSWM/PQ/CEK_TIMER";
         client.send(message);
     }, 10);
+    setTimeout(function() {
+        message = new Paho.MQTT.Message("FULL_OFF");
+        message.destinationName = "ADRSWM/PQ/FULL_OFF";
+        client.send(message);
+    }, 25);
 }
 
 let flagCek = false;
