@@ -188,10 +188,10 @@ function btnSetup(id, topic, set) {
     client.send(message);
     setTimeout(function () {
         s.innerHTML = `<i class='bx bx-check-double'></i> Done`;
-    }, 1500);
+    }, 1000);
     setTimeout(function () {
         s.innerHTML = i;
-    }, 2500);
+    }, 1500);
 }
 
 function btnMode(msg, topic, set) {
