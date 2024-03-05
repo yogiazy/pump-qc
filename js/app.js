@@ -12,9 +12,9 @@ client.connect({
 
 function onConnect() {
     console.log(`onConnect`);
-    client.subscribe(`ADRSWM/PD/TIMER`);
+    client.subscribe(`ADRSWM/PQ/TIMER`);
     message = new Paho.MQTT.Message("CEK_TIMER");
-    message.destinationName = "ADRSWM/PD/CEK_TIMER";
+    message.destinationName = "ADRSWM/PQ/CEK_TIMER";
     client.send(message);
 }
 
@@ -115,23 +115,27 @@ const pumpOFF = document.getElementById('pump_off');
 
 function pump_on() {
     message = new Paho.MQTT.Message("1");
-    message.destinationName = "ADRSWM/PD/BTN_ON_OFF";
+    message.destinationName = "ADRSWM/PQ/BTN_ON_OFF";
     client.send(message);
     cekON();
 }
 
 function pump_off() {
     message = new Paho.MQTT.Message("0");
-    message.destinationName = "ADRSWM/PD/BTN_ON_OFF";
+    message.destinationName = "ADRSWM/PQ/BTN_ON_OFF";
     client.send(message);
     cekOFF();
 }
 
 toggleSwitch.addEventListener('change', function () {
     if (this.checked) {
-        pump_on();
+        message = new Paho.MQTT.Message("M5");
+        message.destinationName = "ADRSWM/PQ/FULL_ON";
+        client.send(message);
     } else {
-        pump_off();
+        message = new Paho.MQTT.Message("M6");
+        message.destinationName = "ADRSWM/PQ/FULL_OFF";
+        client.send(message);
     }
 });
 
@@ -140,11 +144,11 @@ toggleMode.addEventListener('change', function () {
     if (this.checked) {
         textMode.textContent = "Random";
         message = new Paho.MQTT.Message("1");
-        message.destinationName = "ADRSWM/PD/BTN_INTERVAL";
+        message.destinationName = "ADRSWM/PQ/BTN_INTERVAL";
         client.send(message);
         myInv = setInterval(function () {
             message = new Paho.MQTT.Message("1");
-            message.destinationName = "ADRSWM/PD/BTN_INTERVAL";
+            message.destinationName = "ADRSWM/PQ/BTN_INTERVAL";
             client.send(message);
         }, 1000*60);
     } else {
@@ -195,6 +199,21 @@ function btnSetup(id, topic, set) {
     }, 2500);
 }
 
+function btnMode(msg, topic, set) {
+    const s = document.getElementById(set);
+    const i = s.innerHTML;
+    s.innerHTML = `<i class='bx bx-log-in-circle bx-tada'></i> Setting..`;
+    message = new Paho.MQTT.Message(msg);
+    message.destinationName = topic;
+    client.send(message);
+    setTimeout(function () {
+        s.innerHTML = `<i class='bx bx-check-double'></i> Done`;
+    }, 1000);
+    setTimeout(function () {
+        s.innerHTML = i;
+    }, 1500);
+}
+
 const b = document.getElementById("btn_start");
 const b2 = document.getElementById("btn_stop");
 let start;
@@ -205,11 +224,11 @@ function btnStart() {
     b.classList.add("hidden");
     b2.classList.remove("hidden");
     message = new Paho.MQTT.Message("true");
-    message.destinationName = "ADRSWM/PD/BTN_START";
+    message.destinationName = "ADRSWM/PQ/BTN_START";
     client.send(message);
     setTimeout(function() {
         message = new Paho.MQTT.Message("CEK_TIMER");
-        message.destinationName = "ADRSWM/PD/CEK_TIMER";
+        message.destinationName = "ADRSWM/PQ/CEK_TIMER";
         client.send(message);
     }, 10);
 }
@@ -221,11 +240,11 @@ function btnStop() {
     b2.classList.add("hidden");
     b.classList.remove("hidden");
     message = new Paho.MQTT.Message("false");
-    message.destinationName = "ADRSWM/PD/BTN_STOP";
+    message.destinationName = "ADRSWM/PQ/BTN_STOP";
     client.send(message);
     setTimeout(function() {
         message = new Paho.MQTT.Message("CEK_TIMER");
-        message.destinationName = "ADRSWM/PD/CEK_TIMER";
+        message.destinationName = "ADRSWM/PQ/CEK_TIMER";
         client.send(message);
     }, 10);
 }
@@ -239,7 +258,7 @@ function cekON() {
             b2.classList.add("hidden");
             b.classList.remove("hidden");
             message = new Paho.MQTT.Message("false");
-            message.destinationName = "ADRSWM/PD/BTN_STOP";
+            message.destinationName = "ADRSWM/PQ/BTN_STOP";
             client.send(message);
         }
     }, 2000);

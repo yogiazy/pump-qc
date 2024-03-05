@@ -347,7 +347,7 @@ footer span {
 
 .btn-upload {
     text-align: left;
-    width: 100px;
+    width: 120px;
     color: white;
     padding: 10px;
     border-radius: 7px;
@@ -362,6 +362,26 @@ footer span {
 }
 
 .btn-upload:active {
+    background-color: #0d705b;
+}
+
+.btn-upload-2 {
+    text-align: center;
+    width: 120px;
+    color: white;
+    padding: 10px;
+    border-radius: 7px;
+    border-width: 0;
+    background-color: #0b9b7c;
+    cursor: pointer;
+    margin-left: 7px;
+}
+
+.btn-upload-2:hover {
+    background-color: #37bb9e;
+}
+
+.btn-upload-2:active {
     background-color: #0d705b;
 }
 

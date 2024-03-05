@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
     <script src="js/mqttws31.js"></script>
-    <title>Pompa | Adaro Water</title>
+    <title>Pompa-QC | Adaro Water</title>
 </head>
 
 <body>
@@ -33,7 +33,7 @@
                     <div class="data-setup">
                         <input type="number" id="timer_on" class="col-data" value="0">
                         <button id="set_on" type="button" class="btn-upload"
-                            onclick="btnSetup('timer_on', 'ADRSWM/PD/ADD_TIMER_ON', 'set_on')">
+                            onclick="btnSetup('timer_on', 'ADRSWM/PQ/ADD_TIMER_ON', 'set_on')">
                             <i class='bx bxs-chevron-right'></i> Set
                             ON</button>
                     </div>
@@ -43,10 +43,53 @@
                     <div class="data-setup">
                         <input type="number" id="timer_off" class="col-data" value="0">
                         <button id="set_off" type="button" class="btn-upload"
-                            onclick="btnSetup('timer_off', 'ADRSWM/PD/ADD_TIMER_OFF', 'set_off')">
+                            onclick="btnSetup('timer_off', 'ADRSWM/PQ/ADD_TIMER_OFF', 'set_off')">
                             <i class='bx bxs-chevron-right'></i> Set
                             OFF</button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- myapp -->
+        <div class="myapp">
+            <div class="sensor">
+                <div class="data-sensor">
+                    <h2>Max Speed & Periode</h2>
+                </div>
+                <div class="data-sensor">
+                    <h3>Max Speed (0-255)</h3>
+                    <div class="data-setup">
+                        <input type="number" id="speed" class="col-data" value="0">
+                        <button id="set_speed" type="button" class="btn-upload"
+                            onclick="btnSetup('speed', 'ADRSWM/PQ/M7', 'set_speed')">
+                            <i class='bx bxs-chevron-right'></i> Set
+                            Speed</button>
+                    </div>
+                </div>
+                <div class="data-sensor">
+                    <h3>Periode (0-2000)</h3>
+                    <div class="data-setup">
+                        <input type="number" id="period" class="col-data" value="0">
+                        <button id="set_period" type="button" class="btn-upload"
+                            onclick="btnSetup('period', 'ADRSWM/PQ/M8', 'set_period')">
+                            <i class='bx bxs-chevron-right'></i> Set
+                            Periode</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- myapp -->
+        <div class="myapp">
+            <div class="sensor">
+                <div class="data-sensor">
+                    <h2>Mode</h2>
+                </div>
+                <div class="data-sensor">
+                    <button id="fade_down" type="button" class="btn-upload-2" onclick="btnMode('M2', 'ADRSWM/PQ/FADE_DOWN', 'fade_down')">Fade Down</button>
+                    <button id="fade_up" type="button" class="btn-upload-2" onclick="btnMode('M3', 'ADRSWM/PQ/FADE_UP', 'fade_up')">Fade Up</button>
+                    <button id="osilasi" type="button" class="btn-upload-2" onclick="btnMode('M4', 'ADRSWM/PQ/OSILASI', 'osilasi')">Oscillation</button>
                 </div>
             </div>
         </div>
