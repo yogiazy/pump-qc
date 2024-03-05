@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/logo.ico" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+    <script src="js/mqttws31.js"></script>
+    <title>Pompa | Adaro Water</title>
+</head>
+
+<body>
+    <div class="container">
+        <div id="myNav">
+        </div>
+        <!-- myapp -->
+        <div class="myapp">
+            <div class="sensor">
+                <div class="data-sensor">
+                    <h2>Set Timer (s)</h2>
+                    <div class="toggle-container">
+                        <p id="textMode">Static</p>
+                        <label class="switch-2">
+                            <input type="checkbox" id="toggleMode">
+                            <span class="slider-2"></span>
+                        </label>
+                    </div>
+                </div>
+                <div class="data-sensor">
+                    <h3>Timer ON</h3>
+                    <div class="data-setup">
+                        <input type="number" id="timer_on" class="col-data" value="0">
+                        <button id="set_on" type="button" class="btn-upload"
+                            onclick="btnSetup('timer_on', 'ADRSWM/PD/ADD_TIMER_ON', 'set_on')">
+                            <i class='bx bxs-chevron-right'></i> Set
+                            ON</button>
+                    </div>
+                </div>
+                <div class="data-sensor">
+                    <h3>Timer OFF</h3>
+                    <div class="data-setup">
+                        <input type="number" id="timer_off" class="col-data" value="0">
+                        <button id="set_off" type="button" class="btn-upload"
+                            onclick="btnSetup('timer_off', 'ADRSWM/PD/ADD_TIMER_OFF', 'set_off')">
+                            <i class='bx bxs-chevron-right'></i> Set
+                            OFF</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- myapp -->
+        <div class="myapp">
+            <div class="sensor">
+                <div class="data-sensor">
+                    <h2>Pump Control & Monitor</h2>
+                    <button id="btn_start" type="button" class="btn-start" onclick="btnStart()">
+                        <i class="bx bxs-zap"></i> Start
+                    </button>
+                    <button id="btn_stop" type="button" class="btn-stop hidden" onclick="btnStop()">
+                        <i class="bx bx-stop-circle"></i> Stop
+                    </button>
+                </div>
+                <div class="data-pump">
+                    <div>
+                        <div>
+                            <img id="pump_on" src="img/pump-on.png" style="display: none;" width="150" alt="">
+                            <img id="pump_off" src="img/pump-off.png" width="150" alt="">
+                        </div>
+                        <div class="toggle-container">
+                            <label class="switch">
+                                <input type="checkbox" id="toggleSwitch" disabled>
+                                <span class="slider"></span>
+                            </label>
+                            <p id="toggleText">OFF</p>
+                        </div>
+                    </div>
+                    <div class="data-sensor">
+                        <div class="data-timer">
+                            <div class="label-control-on"> ON
+                                <input type="text" id="leftON" class="col-data-on" value="0" readonly>
+                            </div>
+                            <div class="label-control-off"> OFF
+                                <input type="text" id="leftOFF" class="col-data-off" value="0" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <footer>
+            Designed by <span>Adaro SWM</span>
+        </footer>
+    </div>
+
+    <!-- javascript -->
+    <script src="js/app.js"></script>
+</body>
+
+</html>
